@@ -1,0 +1,23 @@
+server:
+  name: go-sql-clean-architecture-sample
+  port: 8080
+
+sql:
+  driver: postgres
+  data_source_name: postgres://zmpiefhm:QTcJLcQNRuw-q0AHWcE_i0HagqDucTEC@tiny.db.elephantsql.com/zmpiefhm
+
+log:
+  level: info
+  map:
+    time: "@timestamp"
+    msg: message
+    stacktrace: stacktrace
+  caller_skip: 2
+
+middleware:
+  log: true
+  skips: /health
+  request: request
+  response: response
+  size: size
+
