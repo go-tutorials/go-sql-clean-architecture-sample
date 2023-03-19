@@ -3,12 +3,12 @@ package repository
 import (
 	"context"
 	"database/sql"
-	"fmt"
-	"go-sample/internal/user"
-	"go-sample/internal/user/entity"
 	"reflect"
 
 	q "github.com/core-go/sql"
+
+	"go-sample/internal/user"
+	"go-sample/internal/user/entity"
 )
 
 var _ user.UserRepository = new(userRepository)
@@ -28,10 +28,9 @@ func NewUserRepository(db *sql.DB) *userRepository {
 
 func (r *userRepository) Load(ctx context.Context, id string) (*entity.User, error) {
 	var users []entity.User
-	query := fmt.Sprintf(`
+	query := `
 		select id, username, email, phone, date_of_birth
-		from users where id = %s limit 1
-		`, q.BuildParam(1))
+		from users where id = $1 limit 1`
 	err := q.Select(ctx, r.DB, &users, query, id)
 	if err != nil {
 		return nil, err
