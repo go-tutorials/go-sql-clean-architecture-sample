@@ -15,13 +15,13 @@ import (
 	"go-sample/internal/user"
 	"go-sample/internal/user/delivery/http"
 	"go-sample/internal/user/entity"
-	"go-sample/internal/user/repository"
+	"go-sample/internal/user/adapter"
 	"go-sample/internal/user/usecase"
 )
 
 type Server struct {
 	Health *health.Handler
-	User   user.UserHandler
+	User   user.UserPort
 }
 
 func NewServer(ctx context.Context, conf config.Config) (*Server, error) {
@@ -38,7 +38,7 @@ func NewServer(ctx context.Context, conf config.Config) (*Server, error) {
 	if err != nil {
 		return nil, err
 	}
-	userRepository := repository.NewUserRepository(db)
+	userRepository := adapter.NewUserAdapter(db)
 	userService := usecase.NewUserService(db, userRepository)
 	userHandler := http.NewUserHandler(userSearchBuilder.Search, userService, validator.Validate, logError)
 
