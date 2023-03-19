@@ -3,7 +3,7 @@ package http
 import (
 	"github.com/gorilla/mux"
 
-	"go-sample/internal/user"
+	"go-service/internal/user"
 )
 
 func UserRoutes(r *mux.Router, h user.UserPort) error {

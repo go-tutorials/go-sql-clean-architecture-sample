@@ -10,8 +10,8 @@ import (
 	"github.com/core-go/search"
 	"github.com/gorilla/mux"
 
-	"go-sample/internal/user"
-	"go-sample/internal/user/entity"
+	"go-service/internal/user"
+	"go-service/internal/user/entity"
 )
 
 const InternalServerError = "Internal Server Error"

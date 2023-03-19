@@ -7,7 +7,7 @@ import (
 
 	q "github.com/core-go/sql"
 
-	"go-sample/internal/user/entity"
+	"go-service/internal/user/entity"
 )
 
 type UserAdapter struct {

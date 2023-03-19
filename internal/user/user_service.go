@@ -3,7 +3,7 @@ package user
 import (
 	"context"
 
-	"go-sample/internal/user/entity"
+	"go-service/internal/user/entity"
 )
 
 type UserService interface {

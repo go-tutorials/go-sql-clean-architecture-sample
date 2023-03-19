@@ -4,8 +4,8 @@ import (
 	"context"
 	"database/sql"
 
-	"go-sample/internal/user"
-	"go-sample/internal/user/entity"
+	"go-service/internal/user"
+	"go-service/internal/user/entity"
 )
 
 type UserUsecase struct {

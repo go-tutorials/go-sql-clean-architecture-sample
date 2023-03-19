@@ -1,4 +1,4 @@
-module go-sample
+module go-service
 
 go 1.15
 
