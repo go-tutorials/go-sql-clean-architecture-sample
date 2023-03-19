@@ -13,7 +13,7 @@ type UserUsecase struct {
 	repository user.UserRepository
 }
 
-func NewUserService(db *sql.DB, repository user.UserRepository) *UserUsecase {
+func NewUserUsecase(db *sql.DB, repository user.UserRepository) *UserUsecase {
 	return &UserUsecase{db: db, repository: repository}
 }
 

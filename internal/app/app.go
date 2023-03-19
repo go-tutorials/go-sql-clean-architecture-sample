@@ -9,7 +9,6 @@ import (
 	"github.com/core-go/log/zap"
 	"github.com/core-go/search/query"
 	q "github.com/core-go/sql"
-	"github.com/gorilla/mux"
 
 	"go-service/internal/user"
 	"go-service/internal/user/adapter"
@@ -38,7 +37,7 @@ func NewServer(ctx context.Context, conf Config) (*Server, error) {
 		return nil, err
 	}
 	userRepository := adapter.NewUserAdapter(db)
-	userService := usecase.NewUserService(db, userRepository)
+	userService := usecase.NewUserUsecase(db, userRepository)
 	userHandler := handler.NewUserHandler(userSearchBuilder.Search, userService, validator.Validate, logError)
 
 	sqlChecker := q.NewHealthChecker(db)
@@ -48,13 +47,4 @@ func NewServer(ctx context.Context, conf Config) (*Server, error) {
 		Health: healthHandler,
 		User:   userHandler,
 	}, nil
-}
-
-func (s *Server) Run(r *mux.Router) error {
-	err := UserRoutes(r, s.User)
-	if err != nil {
-		return err
-	}
-
-	return nil
 }

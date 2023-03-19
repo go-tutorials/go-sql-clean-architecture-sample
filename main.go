@@ -30,16 +30,11 @@ func main() {
 	}
 	r.Use(mid.Recover(log.PanicMsg))
 
-	s, err := app.NewServer(context.Background(), conf)
+	err = app.Route(context.Background(), r, conf)
 	if err != nil {
 		panic(err)
 	}
-
-	if err = s.Run(r); err != nil {
-		panic(err)
-	}
 	fmt.Println(core.ServerInfo(conf.Server))
-
 	server := core.CreateServer(conf.Server, r)
 	if err = server.ListenAndServe(); err != nil {
 		fmt.Println(err.Error())
