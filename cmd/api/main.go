@@ -11,8 +11,8 @@ import (
 	"github.com/gorilla/mux"
 	_ "github.com/lib/pq"
 
-	"go-sample/cmd/api/config"
-	"go-sample/cmd/api/server"
+	"go-service/cmd/api/config"
+	"go-service/cmd/api/server"
 )
 
 func main() {

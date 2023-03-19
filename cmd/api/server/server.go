@@ -11,12 +11,12 @@ import (
 	q "github.com/core-go/sql"
 	"github.com/gorilla/mux"
 
-	"go-sample/cmd/api/config"
-	"go-sample/internal/user"
-	"go-sample/internal/user/delivery/http"
-	"go-sample/internal/user/entity"
-	"go-sample/internal/user/adapter"
-	"go-sample/internal/user/usecase"
+	"go-service/cmd/api/config"
+	"go-service/internal/user"
+	"go-service/internal/user/delivery/http"
+	"go-service/internal/user/entity"
+	"go-service/internal/user/adapter"
+	"go-service/internal/user/usecase"
 )
 
 type Server struct {
