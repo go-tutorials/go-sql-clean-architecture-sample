@@ -3,21 +3,20 @@ package http
 import (
 	"context"
 	"encoding/json"
-	"go-sample/internal/user"
-	"go-sample/internal/user/entity"
 	"net/http"
 	"reflect"
 
 	"github.com/core-go/core"
 	"github.com/core-go/search"
 	"github.com/gorilla/mux"
+
+	"go-sample/internal/user"
+	"go-sample/internal/user/entity"
 )
 
 const InternalServerError = "Internal Server Error"
 
-var _ user.UserHandler = new(userHandler)
-
-type userHandler struct {
+type UserHandler struct {
 	service user.UserService
 	*search.SearchHandler
 	validate func(context.Context, interface{}) ([]core.ErrorMessage, error)
@@ -28,14 +27,14 @@ func NewUserHandler(
 	service user.UserService,
 	validate func(context.Context, interface{}) ([]core.ErrorMessage, error),
 	logError func(context.Context, string, ...map[string]interface{}),
-) *userHandler {
+) *UserHandler {
 	filterType := reflect.TypeOf(entity.UserFilter{})
 	modelType := reflect.TypeOf(entity.User{})
 	searchHandler := search.NewSearchHandler(find, modelType, filterType, logError, nil)
-	return &userHandler{service: service, SearchHandler: searchHandler, validate: validate}
+	return &UserHandler{service: service, SearchHandler: searchHandler, validate: validate}
 }
 
-func (h *userHandler) Load(w http.ResponseWriter, r *http.Request) {
+func (h *UserHandler) Load(w http.ResponseWriter, r *http.Request) {
 	id := mux.Vars(r)["id"]
 	if len(id) == 0 {
 		http.Error(w, "Id cannot be empty", http.StatusBadRequest)
@@ -50,7 +49,7 @@ func (h *userHandler) Load(w http.ResponseWriter, r *http.Request) {
 	JSON(w, http.StatusOK, user)
 }
 
-func (h *userHandler) Create(w http.ResponseWriter, r *http.Request) {
+func (h *UserHandler) Create(w http.ResponseWriter, r *http.Request) {
 	var user entity.User
 	er1 := json.NewDecoder(r.Body).Decode(&user)
 	defer r.Body.Close()
@@ -76,7 +75,7 @@ func (h *userHandler) Create(w http.ResponseWriter, r *http.Request) {
 	JSON(w, http.StatusCreated, res)
 }
 
-func (h *userHandler) Update(w http.ResponseWriter, r *http.Request) {
+func (h *UserHandler) Update(w http.ResponseWriter, r *http.Request) {
 	var user entity.User
 	er1 := json.NewDecoder(r.Body).Decode(&user)
 	defer r.Body.Close()
@@ -113,7 +112,7 @@ func (h *userHandler) Update(w http.ResponseWriter, r *http.Request) {
 	JSON(w, http.StatusOK, res)
 }
 
-func (h *userHandler) Patch(w http.ResponseWriter, r *http.Request) {
+func (h *UserHandler) Patch(w http.ResponseWriter, r *http.Request) {
 	id := mux.Vars(r)["id"]
 	if len(id) == 0 {
 		http.Error(w, "Id cannot be empty", http.StatusBadRequest)
@@ -158,7 +157,7 @@ func (h *userHandler) Patch(w http.ResponseWriter, r *http.Request) {
 	JSON(w, http.StatusOK, res)
 }
 
-func (h *userHandler) Delete(w http.ResponseWriter, r *http.Request) {
+func (h *UserHandler) Delete(w http.ResponseWriter, r *http.Request) {
 	id := mux.Vars(r)["id"]
 	if len(id) == 0 {
 		http.Error(w, "Id cannot be empty", http.StatusBadRequest)

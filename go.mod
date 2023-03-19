@@ -9,12 +9,11 @@ require (
 	github.com/core-go/log v0.1.3
 	github.com/core-go/search v0.2.8
 	github.com/core-go/sql v0.3.6
-	github.com/go-playground/validator/v10 v10.11.1 // indirect
+	github.com/go-playground/validator/v10 v10.11.2 // indirect
 	github.com/gorilla/mux v1.8.0
 	github.com/lib/pq v1.10.7
 	github.com/pkg/errors v0.9.1 // indirect
 	go.uber.org/zap v1.24.0 // indirect
 	golang.org/x/lint v0.0.0-20200302205851-738671d3881b // indirect
-	golang.org/x/sys v0.0.0-20220520151302-bc2c85ada10a // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 )

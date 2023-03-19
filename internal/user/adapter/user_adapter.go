@@ -1,4 +1,4 @@
-package repository
+package adapter
 
 import (
 	"context"
@@ -7,26 +7,23 @@ import (
 
 	q "github.com/core-go/sql"
 
-	"go-sample/internal/user"
 	"go-sample/internal/user/entity"
 )
 
-var _ user.UserRepository = new(userRepository)
-
-type userRepository struct {
+type UserAdapter struct {
 	keys          []string
 	jsonColumnMap map[string]string
 	DB            *sql.DB
 }
 
-func NewUserRepository(db *sql.DB) *userRepository {
+func NewUserAdapter(db *sql.DB) *UserAdapter {
 	userType := reflect.TypeOf(entity.User{})
 	keys, _ := q.FindPrimaryKeys(userType)
 	jsonColumnMap := q.MakeJsonColumnMap(userType)
-	return &userRepository{keys: keys, jsonColumnMap: jsonColumnMap, DB: db}
+	return &UserAdapter{keys: keys, jsonColumnMap: jsonColumnMap, DB: db}
 }
 
-func (r *userRepository) Load(ctx context.Context, id string) (*entity.User, error) {
+func (r *UserAdapter) Load(ctx context.Context, id string) (*entity.User, error) {
 	var users []entity.User
 	query := `
 		select id, username, email, phone, date_of_birth
@@ -41,21 +38,21 @@ func (r *userRepository) Load(ctx context.Context, id string) (*entity.User, err
 	return nil, nil
 }
 
-func (r *userRepository) Create(ctx context.Context, user *entity.User) (int64, error) {
+func (r *UserAdapter) Create(ctx context.Context, user *entity.User) (int64, error) {
 	query, args := q.BuildToInsert("users", user, q.BuildParam)
 	tx := q.GetTx(ctx)
 	res, err := tx.ExecContext(ctx, query, args...)
 	return RowsAffected(res, err)
 }
 
-func (r *userRepository) Update(ctx context.Context, user *entity.User) (int64, error) {
+func (r *UserAdapter) Update(ctx context.Context, user *entity.User) (int64, error) {
 	tx := q.GetTx(ctx)
 	query, args := q.BuildToUpdate("users", user, q.BuildParam)
 	res, err := tx.ExecContext(ctx, query, args...)
 	return RowsAffected(res, err)
 }
 
-func (r *userRepository) Patch(ctx context.Context, user map[string]interface{}) (int64, error) {
+func (r *UserAdapter) Patch(ctx context.Context, user map[string]interface{}) (int64, error) {
 	colMap := q.JSONToColumns(user, r.jsonColumnMap)
 	query, args := q.BuildToPatch("users", colMap, r.keys, q.BuildParam)
 	tx := q.GetTx(ctx)
@@ -63,7 +60,7 @@ func (r *userRepository) Patch(ctx context.Context, user map[string]interface{})
 	return RowsAffected(res, err)
 }
 
-func (r *userRepository) Delete(ctx context.Context, id string) (int64, error) {
+func (r *UserAdapter) Delete(ctx context.Context, id string) (int64, error) {
 	query := "delete from users where id = ?"
 	tx := q.GetTx(ctx)
 	stmt, err := tx.Prepare(query)

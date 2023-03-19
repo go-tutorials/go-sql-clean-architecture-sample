@@ -2,6 +2,7 @@ package user
 
 import (
 	"context"
+
 	"go-sample/internal/user/entity"
 )
 

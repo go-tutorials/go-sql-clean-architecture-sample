@@ -1,12 +1,12 @@
 package http
 
 import (
-	"go-sample/internal/user"
-
 	"github.com/gorilla/mux"
+
+	"go-sample/internal/user"
 )
 
-func UserRoutes(r *mux.Router, h user.UserHandler) error {
+func UserRoutes(r *mux.Router, h user.UserPort) error {
 	user := "/users"
 	r.HandleFunc(user+"/search", h.Search).Methods("GET", "POST")
 	r.HandleFunc(user+"/{id}", h.Load).Methods("GET")

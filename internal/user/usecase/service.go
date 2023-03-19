@@ -3,26 +3,25 @@ package usecase
 import (
 	"context"
 	"database/sql"
+
 	"go-sample/internal/user"
 	"go-sample/internal/user/entity"
 )
 
-var _ user.UserService = new(userService)
-
-type userService struct {
+type UserUsecase struct {
 	db         *sql.DB
 	repository user.UserRepository
 }
 
-func NewUserService(db *sql.DB, repository user.UserRepository) *userService {
-	return &userService{db: db, repository: repository}
+func NewUserService(db *sql.DB, repository user.UserRepository) *UserUsecase {
+	return &UserUsecase{db: db, repository: repository}
 }
 
-func (s *userService) Load(ctx context.Context, id string) (*entity.User, error) {
+func (s *UserUsecase) Load(ctx context.Context, id string) (*entity.User, error) {
 	return s.repository.Load(ctx, id)
 }
 
-func (s *userService) Create(ctx context.Context, user *entity.User) (int64, error) {
+func (s *UserUsecase) Create(ctx context.Context, user *entity.User) (int64, error) {
 	tx, err := s.db.Begin()
 	if err != nil {
 		return -1, nil
@@ -40,7 +39,7 @@ func (s *userService) Create(ctx context.Context, user *entity.User) (int64, err
 	return res, err
 }
 
-func (s *userService) Update(ctx context.Context, user *entity.User) (int64, error) {
+func (s *UserUsecase) Update(ctx context.Context, user *entity.User) (int64, error) {
 	tx, err := s.db.Begin()
 	if err != nil {
 		return -1, nil
@@ -58,7 +57,7 @@ func (s *userService) Update(ctx context.Context, user *entity.User) (int64, err
 	return res, err
 }
 
-func (s *userService) Patch(ctx context.Context, user map[string]interface{}) (int64, error) {
+func (s *UserUsecase) Patch(ctx context.Context, user map[string]interface{}) (int64, error) {
 	tx, err := s.db.Begin()
 	if err != nil {
 		return -1, nil
@@ -76,7 +75,7 @@ func (s *userService) Patch(ctx context.Context, user map[string]interface{}) (i
 	return res, err
 }
 
-func (s *userService) Delete(ctx context.Context, id string) (int64, error) {
+func (s *UserUsecase) Delete(ctx context.Context, id string) (int64, error) {
 	tx, err := s.db.Begin()
 	if err != nil {
 		return -1, nil

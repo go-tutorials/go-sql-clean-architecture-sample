@@ -1,8 +1,6 @@
 package entity
 
-import (
-	"github.com/core-go/search"
-)
+import "github.com/core-go/search"
 
 type UserFilter struct {
 	*search.Filter
