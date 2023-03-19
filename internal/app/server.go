@@ -1,4 +1,4 @@
-package server
+package app
 
 import (
 	"context"
@@ -11,11 +11,10 @@ import (
 	q "github.com/core-go/sql"
 	"github.com/gorilla/mux"
 
-	"go-service/cmd/api/config"
 	"go-service/internal/user"
+	"go-service/internal/user/adapter"
 	"go-service/internal/user/delivery/http"
 	"go-service/internal/user/entity"
-	"go-service/internal/user/adapter"
 	"go-service/internal/user/usecase"
 )
 
@@ -24,7 +23,7 @@ type Server struct {
 	User   user.UserPort
 }
 
-func NewServer(ctx context.Context, conf config.Config) (*Server, error) {
+func NewServer(ctx context.Context, conf Config) (*Server, error) {
 	db, err := q.OpenByConfig(conf.Sql)
 	if err != nil {
 		return nil, err
@@ -52,7 +51,7 @@ func NewServer(ctx context.Context, conf config.Config) (*Server, error) {
 }
 
 func (s *Server) Run(r *mux.Router) error {
-	err := http.UserRoutes(r, s.User)
+	err := UserRoutes(r, s.User)
 	if err != nil {
 		return err
 	}

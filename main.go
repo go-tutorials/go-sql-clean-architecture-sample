@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"go-service/internal/app"
 
 	cfg "github.com/core-go/config"
 	"github.com/core-go/core"
@@ -10,14 +11,11 @@ import (
 	log "github.com/core-go/log/zap"
 	"github.com/gorilla/mux"
 	_ "github.com/lib/pq"
-
-	"go-service/cmd/api/config"
-	"go-service/cmd/api/server"
 )
 
 func main() {
-	var conf config.Config
-	err := cfg.Load(&conf, "../../configs/config")
+	var conf app.Config
+	err := cfg.Load(&conf, "./configs/config")
 	if err != nil {
 		panic(err)
 	}
@@ -31,7 +29,7 @@ func main() {
 	}
 	r.Use(mid.Recover(log.PanicMsg))
 
-	s, err := server.NewServer(context.Background(), conf)
+	s, err := app.NewServer(context.Background(), conf)
 	if err != nil {
 		panic(err)
 	}
