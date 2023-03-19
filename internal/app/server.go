@@ -13,8 +13,8 @@ import (
 
 	"go-service/internal/user"
 	"go-service/internal/user/adapter"
-	"go-service/internal/user/delivery/http"
 	"go-service/internal/user/entity"
+	"go-service/internal/user/handler"
 	"go-service/internal/user/usecase"
 )
 
@@ -39,7 +39,7 @@ func NewServer(ctx context.Context, conf Config) (*Server, error) {
 	}
 	userRepository := adapter.NewUserAdapter(db)
 	userService := usecase.NewUserService(db, userRepository)
-	userHandler := http.NewUserHandler(userSearchBuilder.Search, userService, validator.Validate, logError)
+	userHandler := handler.NewUserHandler(userSearchBuilder.Search, userService, validator.Validate, logError)
 
 	sqlChecker := q.NewHealthChecker(db)
 	healthHandler := health.NewHandler(sqlChecker)

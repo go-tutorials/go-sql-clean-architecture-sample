@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"fmt"
-	"go-service/internal/app"
 
 	cfg "github.com/core-go/config"
 	"github.com/core-go/core"
@@ -11,6 +10,8 @@ import (
 	log "github.com/core-go/log/zap"
 	"github.com/gorilla/mux"
 	_ "github.com/lib/pq"
+
+	"go-service/internal/app"
 )
 
 func main() {
