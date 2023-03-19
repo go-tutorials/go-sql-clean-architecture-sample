@@ -2,20 +2,21 @@ package server
 
 import (
 	"context"
+	"reflect"
+
+	v "github.com/core-go/core/v10"
+	"github.com/core-go/health"
+	"github.com/core-go/log/zap"
+	"github.com/core-go/search/query"
+	q "github.com/core-go/sql"
+	"github.com/gorilla/mux"
+
 	"go-sample/cmd/api/config"
 	"go-sample/internal/user"
 	"go-sample/internal/user/delivery/http"
 	"go-sample/internal/user/entity"
 	"go-sample/internal/user/repository"
 	"go-sample/internal/user/usecase"
-	"reflect"
-
-	v "github.com/core-go/core/v10"
-	"github.com/core-go/health"
-	log "github.com/core-go/log/zap"
-	"github.com/core-go/search/query"
-	q "github.com/core-go/sql"
-	"github.com/gorilla/mux"
 )
 
 type Server struct {

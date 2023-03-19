@@ -3,8 +3,6 @@ package main
 import (
 	"context"
 	"fmt"
-	"go-sample/cmd/api/config"
-	"go-sample/cmd/api/server"
 
 	cfg "github.com/core-go/config"
 	"github.com/core-go/core"
@@ -12,6 +10,9 @@ import (
 	log "github.com/core-go/log/zap"
 	"github.com/gorilla/mux"
 	_ "github.com/lib/pq"
+
+	"go-sample/cmd/api/config"
+	"go-sample/cmd/api/server"
 )
 
 func main() {
